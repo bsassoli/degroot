@@ -5,6 +5,8 @@ from numpy.typing import NDArray
 import numpy as np
 
 LIMIT_DENOMINATOR = 100000
+
+
 class DeGroot:
     """
     A class implementing DeGroot social learning model
@@ -50,7 +52,10 @@ class DeGroot:
 
     def __str__(self):
         fracts = list(
-            map(lambda n: str(fract(n).limit_denominator(LIMIT_DENOMINATOR)), self.beliefs.tolist())
+            map(
+                lambda n: str(fract(n).limit_denominator(LIMIT_DENOMINATOR)),
+                self.beliefs.tolist(),
+            )
         )
         # fracts = "\n".join([f"{n.numerator}/{n.denominator}" for n in fracts])
         return " ".join(fracts)
@@ -61,8 +66,9 @@ class DeGroot:
         return self.beliefs
 
     def iterate(
-        self, no_iters: int = 1000,
-        tolerance_level: float = float_info.epsilon * 10 ** 3
+        self,
+        no_iters: int = 1000,
+        tolerance_level: float = float_info.epsilon * 10**3,
     ) -> Tuple[bool, list[NDArray[np.float64]]]:
         """Models Markov chain"""
         if no_iters < 1:

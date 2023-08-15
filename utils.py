@@ -5,7 +5,10 @@ LIMIT_DENOMINATOR = 100000
 
 
 def display_latex(t, b) -> Tuple[str, str]:
-    trust = [list(map(lambda n: fract(n).limit_denominator(LIMIT_DENOMINATOR), row)) for row in t]
+    trust = [
+        list(map(lambda n: fract(n).limit_denominator(LIMIT_DENOMINATOR), row))
+        for row in t
+    ]
     fracts = list(map(lambda n: fract(n).limit_denominator(LIMIT_DENOMINATOR), b))
     latex_beliefs = r"\begin{pmatrix}"
     latex_beliefs += "".join(list(map(lambda n: f"{n}" + r"\\", fracts)))
