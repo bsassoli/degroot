@@ -4,6 +4,7 @@ from sys import float_info  # default value for testing convergence
 from numpy.typing import NDArray
 import numpy as np
 
+
 LIMIT_DENOMINATOR = 100000
 
 
