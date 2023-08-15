@@ -1,13 +1,10 @@
 from typing import Tuple
 from fractions import Fraction as fract  # format decimals as fractions
 from sys import float_info  # default value for testing convergence
-from utils import display_latex
 from numpy.typing import NDArray
 import numpy as np
-import streamlit as st
-import networkx as nx
 
-
+LIMIT_DENOMINATOR = 100000
 class DeGroot:
     """
     A class implementing DeGroot social learning model
@@ -53,7 +50,7 @@ class DeGroot:
 
     def __str__(self):
         fracts = list(
-            map(lambda n: str(fract(n).limit_denominator(10)), self.beliefs.tolist())
+            map(lambda n: str(fract(n).limit_denominator(LIMIT_DENOMINATOR)), self.beliefs.tolist())
         )
         # fracts = "\n".join([f"{n.numerator}/{n.denominator}" for n in fracts])
         return " ".join(fracts)
@@ -64,7 +61,8 @@ class DeGroot:
         return self.beliefs
 
     def iterate(
-        self, no_iters: int = 1000, tolerance_level: float = float_info.epsilon
+        self, no_iters: int = 1000,
+        tolerance_level: float = float_info.epsilon * 10 ** 3
     ) -> Tuple[bool, list[NDArray[np.float64]]]:
         """Models Markov chain"""
         if no_iters < 1:
@@ -81,28 +79,3 @@ class DeGroot:
                 return (True, history)
         print("No Convergence\n")
         return (False, history)
-
-
-def simulate(o):
-    o._time_step()
-
-def main():
-    belief_vector = np.array([1, 0, 0])
-    t_matrix = np.array([[0, 0.5, 0.5], [1, 0, 0], [0, 1, 0]])
-    jackson_example = DeGroot(belief_vector, t_matrix)
-    """
-    G = nx.from_numpy_array(jackson_example._trust,
-                            create_using=nx.MultiDiGraph())
-    G_labels = jackson_example._trust
-    for i, j, d in G.edges(data=True):
-        d["label"] = G_labels[i][j]
-    dot = nx.nx_pydot.to_pydot(G)
-    st.graphviz_chart(dot.to_string())
-    """
-    st.button("Start simulation", on_click=simulate(jackson_example))
-    with st.empty():
-        st.latex(display_latex(jackson_example._trust, jackson_example.beliefs)[0])
-
-
-if __name__ == "__main__":
-    main()
