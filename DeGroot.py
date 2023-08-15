@@ -48,7 +48,7 @@ class DeGroot:
             )
 
         self.beliefs = beliefs.T
-        self._trust = trust_matrix
+        self.trust = trust_matrix
 
     def __str__(self):
         fracts = list(
@@ -62,7 +62,7 @@ class DeGroot:
 
     def _time_step(self) -> NDArray[np.float64]:
         # updates the model
-        self.beliefs = self.beliefs @ self._trust
+        self.beliefs = self.beliefs @ self.trust
         return self.beliefs
 
     def iterate(
