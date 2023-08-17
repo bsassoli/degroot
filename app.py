@@ -29,12 +29,11 @@ def main():
     with msg_container:
         st.write(msg)
 
-    def simulate():
-        return DeGroot(belief_vector, t_matrix)
+    # N = st.number_input("Enter number of agents: ")
+    # DF = st.experimental_data_editor(np.matrix(N))
 
     st.sidebar.header("Choose")
     step = st.sidebar.slider("Simulation step", 0, len(hist) - 1, 0)
-    st.sidebar.button("Reset model", on_click=simulate)
     with col1:
         st.subheader("Graph")
         graph = nx.from_numpy_array(model.trust, create_using=nx.MultiDiGraph())
